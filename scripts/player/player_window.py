@@ -3,13 +3,25 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from PyQt6.QtCore import QEvent, QTimer, QUrl, Qt
+from PyQt6.QtCore import QEvent, QPoint, QTimer, QUrl, Qt
 from PyQt6.QtMultimedia import QAudioOutput, QMediaMetaData, QMediaPlayer
 from PyQt6.QtMultimediaWidgets import QVideoWidget
-from PyQt6.QtWidgets import QInputDialog, QLabel, QMainWindow, QVBoxLayout, QLayout, QWidget, QSizePolicy
+from PyQt6.QtWidgets import (
+    QDialog,
+    QInputDialog,
+    QLabel,
+    QLayout,
+    QMainWindow,
+    QMenu,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
-from .chapter_io import get_io, MatroskaIO, output_path_for
+from .chapter_io import MatroskaIO, MatroskaTagsIO, get_io, output_path_for, tags_output_path_for
 from .chapter_model import Chapter, ChapterList
+from .character_dialog import CharacterDialog, CharactersOverviewDialog
+from .character_registry import CharacterRegistry
 from .timeline_widget import TimelineWidget
 
 
@@ -23,6 +35,8 @@ class PlayerWindow(QMainWindow):
         self._duration_ns: int = 0
         self._base_title = "Chapter Player"
         self._dirty = False
+        self._tags_output_path: Path | None = None
+        self._registry = CharacterRegistry()
 
         self._loaded_chapters: list[Chapter] = []  # chapters as read from file (with leading N/A)
         self._chapters = ChapterList([])
@@ -31,6 +45,7 @@ class PlayerWindow(QMainWindow):
         self._timeline = TimelineWidget()
         self._timeline.set_chapters(self._chapters)
         self._timeline.seek_requested.connect(self._on_seek_requested)
+        self._timeline.chapter_context_menu_requested.connect(self._on_chapter_context_menu)
 
         self._audio_output = QAudioOutput()
         self._player = QMediaPlayer()
@@ -67,6 +82,7 @@ class PlayerWindow(QMainWindow):
         self._loaded_chapters = []
         self._chapters = ChapterList([])
         self._output_path = None
+        self._tags_output_path = None
         self._base_title = path.name
         self._dirty = False
         self._refresh_title()
@@ -78,11 +94,14 @@ class PlayerWindow(QMainWindow):
     def load_chapters(self, path: Path, output_path: Path) -> None:
         """Load a chapters file. Media does not need to be loaded first."""
         self._output_path = output_path
+        self._tags_output_path = tags_output_path_for(output_path)
         self._dirty = False
         self._refresh_title()
         raw = get_io(path).read(path)
         if raw and raw[0].start_ns > 0:
             raw = [Chapter(start_ns=0, end_ns=raw[0].start_ns, name="N/A")] + raw
+        if self._tags_output_path.exists():
+            MatroskaTagsIO().read(self._tags_output_path, raw)
         self._loaded_chapters = raw
         self._chapters = ChapterList(self._with_trailing(raw))
         self._timeline.set_chapters(self._chapters)
@@ -220,6 +239,10 @@ class PlayerWindow(QMainWindow):
             self._split_chapter()
         elif key == Key.Key_R:
             self._rename_chapter()
+        elif key == Key.Key_C and mods == Mod.NoModifier:
+            self._edit_current_chapter_characters()
+        elif key == Key.Key_C and mods == Mod.ShiftModifier:
+            self._manage_all_characters()
 
         # Undo / redo
         elif key == Key.Key_Z and mods == Mod.ControlModifier:
@@ -268,6 +291,8 @@ class PlayerWindow(QMainWindow):
                 (key("S"), "Split"),
                 (key("Del"), "Merge with prev"),
                 (key("R"), "Rename"),
+                (key("C"), "Edit chars"),
+                (key("Shift+C"), "All chars"),
                 (key("Ctrl+S"), "Save"),
                 (key("Ctrl+Z"), "Undo"),
                 (key("Ctrl+Shift+Z"), "Redo"),
@@ -376,11 +401,52 @@ class PlayerWindow(QMainWindow):
             self._timeline.set_chapters(self._chapters)
             self._update_status()
 
+    def _edit_current_chapter_characters(self) -> None:
+        idx = self._chapters.current_index(self._pos_ns())
+        if idx < 0:
+            return
+        self._edit_characters(idx)
+
+    def _edit_characters(self, idx: int) -> None:
+        ch = self._chapters[idx]
+        dlg = CharacterDialog(ch.name, ch.characters, self._registry, parent=self)
+        if dlg.exec() == QDialog.DialogCode.Accepted:
+            new_chars = dlg.characters
+            if new_chars != ch.characters:
+                self._chapters.set_characters(idx, new_chars)
+                self._mark_dirty()
+                self._timeline.set_chapters(self._chapters)
+                self._update_status()
+
+    def _manage_all_characters(self) -> None:
+        original = self._chapters.chapters
+        dlg = CharactersOverviewDialog(original, self._registry, parent=self)
+        if dlg.exec() == QDialog.DialogCode.Accepted:
+            changes = dlg.get_changes(original)
+            if changes:
+                self._chapters.set_all_characters(changes)
+                self._mark_dirty()
+                self._timeline.set_chapters(self._chapters)
+                self._update_status()
+
+    def _on_chapter_context_menu(self, idx: int, pos: QPoint) -> None:
+        menu = QMenu(self)
+        edit_action = menu.addAction("Edit characters…")
+        all_action = menu.addAction("Manage all characters…")
+        action = menu.exec(pos)
+        if action == edit_action:
+            self._edit_characters(idx)
+        elif action == all_action:
+            self._manage_all_characters()
+
     def _save(self) -> None:
         if self._output_path is None:
             return
         try:
-            MatroskaIO().write(self._chapters.chapters, self._output_path)
+            chapters = self._chapters.chapters
+            MatroskaIO().write(chapters, self._output_path)
+            if self._tags_output_path is not None:
+                MatroskaTagsIO().write(chapters, self._tags_output_path)
             self._dirty = False
             self._refresh_title()
             self.statusBar().showMessage(f"Saved to {self._output_path.name}", 3000)
