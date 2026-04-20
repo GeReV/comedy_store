@@ -15,6 +15,7 @@ export interface Chapter {
   start: number; // seconds
   end: number;   // seconds
   name: string;
+  tags: string[];
 }
 
 export type EpisodeIndex = EpisodeMetadata[];
@@ -31,10 +32,18 @@ export interface DisplayEntry {
   matchIndices: Set<number>;
 }
 
+export interface ChapterMatch {
+  /** 1-based chapter index (matches URL ch-{N} convention). */
+  chapterIdx: number;
+  chapter: Chapter;
+}
+
 export interface EpisodeSearchResult {
   episode: EpisodeMetadata;
   /** Merged, context-expanded display entries. */
   entries: DisplayEntry[];
-  /** Total individual matching lines (before context/merging). */
+  /** Total individual matching lines (before context/merging) plus chapter matches. */
   totalMatches: number;
+  /** Chapters whose name or tags matched the query. */
+  chapterMatches?: ChapterMatch[];
 }
