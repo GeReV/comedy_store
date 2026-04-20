@@ -1,7 +1,7 @@
 import type { Chapter, EpisodeMetadata, EpisodeLines, Line } from "../types.js";
 import { MIN_QUERY_LENGTH } from "../search.js";
 import { applyHighlights, clearHighlights } from "../highlight.js";
-import { formatTime } from "../utils";
+import { formatTime, tagColor } from "../utils.js";
 
 export interface ChapterBlockData {
   el: HTMLElement;
@@ -86,6 +86,14 @@ function makeLineEl(line: Line, idx: number): HTMLElement {
   return el;
 }
 
+function makeTagEl(tag: string): HTMLElement {
+  const span = document.createElement("span");
+  span.className = "tag";
+  span.textContent = tag;
+  span.style.setProperty("--tag-color", tagColor(tag));
+  return span;
+}
+
 function renderFlat(
     list: HTMLElement,
     lines: EpisodeLines,
@@ -161,6 +169,15 @@ function renderWithChapters(
     timeEl.textContent = `${formatTime(ch.start)} – ${formatTime(ch.end)}`;
     headerEl.appendChild(timeEl);
 
+    if (ch.tags.length > 0) {
+      const tagsEl = document.createElement("div");
+      tagsEl.className = "chapter-tags";
+      for (const tag of ch.tags) {
+        tagsEl.appendChild(makeTagEl(tag));
+      }
+      headerEl.appendChild(tagsEl);
+    }
+
     block.appendChild(headerEl);
 
     frag.appendChild(block);
@@ -219,7 +236,7 @@ export function applyQueryFilter(
 
   if (chapterBlocks) {
     for (const block of chapterBlocks) {
-      updateChapterBlock(block, filtering);
+      updateChapterBlock(block, q, filtering);
     }
   }
 
@@ -228,22 +245,26 @@ export function applyQueryFilter(
   }
 }
 
-function updateChapterBlock(block: ChapterBlockData, filtering: boolean): void {
-  const hasVisibleLines = block.lineEls.some((el) => !el.classList.contains("hidden"));
+function chapterMatchesQuery(chapter: Chapter, q: string): boolean {
+  if (chapter.name.toLowerCase().includes(q)) return true;
+  return chapter.tags.some((t) => t.toLowerCase().includes(q));
+}
 
-  if (filtering && !hasVisibleLines) {
+function updateChapterBlock(block: ChapterBlockData, q: string, filtering: boolean): void {
+  const hasVisibleLines = block.lineEls.some((el) => !el.classList.contains("hidden"));
+  const chapterSelfMatch = filtering && chapterMatchesQuery(block.chapter, q);
+
+  if (filtering && !hasVisibleLines && !chapterSelfMatch) {
     block.el.hidden = true;
     return;
   }
 
   block.el.hidden = false;
 
-  // Unnamed chapters always show their timestamp as a divider.
   if (!block.chapter.name) {
     block.headerEl.hidden = false;
     return;
   }
 
-  // Named chapters show the timestamp only when all their lines are hidden.
-  block.headerEl.hidden = hasVisibleLines;
+  block.headerEl.hidden = !chapterSelfMatch && hasVisibleLines;
 }
