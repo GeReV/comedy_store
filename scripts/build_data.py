@@ -84,7 +84,7 @@ def slugify(name: str) -> str:
 
 
 def parse_chapters_xml(path: Path) -> list[dict]:
-    """Parse a .chapters.xml file, return [{start, end, name}] with times in seconds."""
+    """Parse a .chapters.xml file, return [{start, end, name, tags}] with times in seconds."""
     try:
         tree = ET.parse(path)
     except Exception:
@@ -102,16 +102,55 @@ def parse_chapters_xml(path: Path) -> list[dict]:
             "start": round(int(start_el.text) / 1_000_000_000, 3),
             "end": round(int(end_el.text) / 1_000_000_000, 3),
             "name": name,
+            "tags": [],
         })
     return chapters
+
+
+def parse_tags_xml(path: Path) -> dict[int, list[str]]:
+    """Parse a .edited.tags.xml, return {0-based-chapter-idx: [character, ...]}."""
+    try:
+        tree = ET.parse(path)
+    except Exception:
+        return {}
+    tags: dict[int, list[str]] = {}
+    for tag in tree.getroot().iter("Tag"):
+        targets = tag.find("Targets")
+        if targets is None:
+            continue
+        uid_el = targets.find("ChapterUID")
+        if uid_el is None or uid_el.text is None:
+            continue
+        idx = int(uid_el.text) - 1  # ChapterUID is 1-based
+        characters: list[str] = []
+        for simple in tag.findall("Simple"):
+            name_el = simple.find("Name")
+            string_el = simple.find("String")
+            if (
+                name_el is not None
+                and name_el.text == "CHARACTER"
+                and string_el is not None
+                and string_el.text
+            ):
+                characters.append(string_el.text)
+        if characters:
+            tags[idx] = characters
+    return tags
 
 
 def find_chapters(srt_path: Path) -> list[dict]:
     """Return chapters for an episode from its .edited.chapters.xml, if it exists."""
     edited = srt_path.parent / f"{srt_path.stem}.edited.chapters.xml"
-    if edited.exists():
-        return parse_chapters_xml(edited)
-    return []
+    if not edited.exists():
+        return []
+    chapters = parse_chapters_xml(edited)
+    tags_path = srt_path.parent / f"{srt_path.stem}.edited.tags.xml"
+    if tags_path.exists():
+        tags_by_idx = parse_tags_xml(tags_path)
+        for idx, chars in tags_by_idx.items():
+            if 0 <= idx < len(chapters):
+                chapters[idx]["tags"] = chars
+    return chapters
 
 
 def episode_num_from_dir(dirname: str) -> int:
