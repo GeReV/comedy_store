@@ -438,7 +438,9 @@ h1 {
   color: var(--text);
 }
 
-.result-line .ts {
+.result-line .ts,
+.transcript-line .ts,
+.tag-chapter-line .ts {
   font-size: .75rem;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
@@ -515,12 +517,8 @@ h1 {
   background: var(--accent-dim);
 }
 
-.transcript-line .ts {
-  font-size: .75rem;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  flex-shrink: 0;
+.transcript-line .ts,
+.tag-chapter-line .ts {
   padding-top: .1em;
 }
 
@@ -745,14 +743,6 @@ a.chapter-block-header:hover {
   font-size: .85rem;
 }
 
-.tag-chapter-line .ts {
-  flex-shrink: 0;
-  font-size: .75rem;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  padding-top: .1em;
-}
 
 /* ── Chapter match card (in search results) ──────────────────────────── */
 .chapter-match-card {

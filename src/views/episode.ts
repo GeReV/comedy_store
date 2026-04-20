@@ -1,7 +1,7 @@
-import type { Chapter, EpisodeMetadata, EpisodeLines, Line } from "../types.js";
+import type { Chapter, EpisodeMetadata, EpisodeLines } from "../types.js";
 import { MIN_QUERY_LENGTH } from "../search.js";
 import { applyHighlights, clearHighlights } from "../highlight.js";
-import { formatTime, tagColor } from "../utils.js";
+import { formatTime, makeLineEl, tagColor } from "../utils.js";
 
 export interface ChapterBlockData {
   el: HTMLElement;
@@ -68,23 +68,6 @@ export function renderEpisode(
   return { listEl: list, lineEls, chapterBlocks };
 }
 
-function makeLineEl(line: Line, idx: number): HTMLElement {
-  const el = document.createElement("div");
-  el.className = "transcript-line";
-  el.dataset["idx"] = String(idx);
-
-  const ts = document.createElement("time");
-  ts.className = "ts";
-  ts.textContent = formatTime(line.start);
-
-  const text = document.createElement("span");
-  text.className = "text";
-  text.textContent = line.text;
-
-  el.appendChild(ts);
-  el.appendChild(text);
-  return el;
-}
 
 function makeTagEl(tag: string): HTMLElement {
   const span = document.createElement("span");
@@ -107,7 +90,7 @@ function renderFlat(
       continue;
     }
 
-    const el = makeLineEl(line, i);
+    const el = makeLineEl(line, "transcript-line", i);
     frag.appendChild(el);
     lineEls.push(el);
   }
@@ -196,7 +179,7 @@ function renderWithChapters(
       chapIdx++;
     }
 
-    const el = makeLineEl(line, i);
+    const el = makeLineEl(line, "transcript-line", i);
     chapterBlocks[chapIdx].el.appendChild(el);
     chapterBlocks[chapIdx].lineEls.push(el);
     lineEls.push(el);

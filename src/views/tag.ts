@@ -1,5 +1,5 @@
 import type { Chapter, EpisodeIndex, EpisodeLines } from "../types.js";
-import { formatTime, tagColor } from "../utils.js";
+import { formatTime, makeLineEl, tagColor } from "../utils.js";
 
 function makeTagEl(tag: string): HTMLElement {
   const span = document.createElement("span");
@@ -94,17 +94,7 @@ export function renderTagView(
         const linesEl = document.createElement("div");
         linesEl.className = "tag-chapter-lines";
         for (const l of chapterLines) {
-          const row = document.createElement("div");
-          row.className = "tag-chapter-line";
-          const ts = document.createElement("time");
-          ts.className = "ts";
-          ts.textContent = formatTime(l.start);
-          const text = document.createElement("span");
-          text.className = "text";
-          text.textContent = l.text;
-          row.appendChild(ts);
-          row.appendChild(text);
-          linesEl.appendChild(row);
+          linesEl.appendChild(makeLineEl(l, "tag-chapter-line"));
         }
         card.appendChild(linesEl);
       }

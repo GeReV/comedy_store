@@ -1,3 +1,22 @@
+import type { Line } from "./types.js";
+
+export function makeLineEl(line: Line, className: string, idx?: number): HTMLElement {
+  const el = document.createElement("div");
+  el.className = className;
+  if (idx !== undefined) {
+    el.dataset["idx"] = String(idx);
+  }
+  const ts = document.createElement("time");
+  ts.className = "ts";
+  ts.textContent = formatTime(line.start);
+  const text = document.createElement("span");
+  text.className = "text";
+  text.textContent = line.text;
+  el.appendChild(ts);
+  el.appendChild(text);
+  return el;
+}
+
 export function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
 }
