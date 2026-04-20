@@ -439,8 +439,7 @@ h1 {
 }
 
 .result-line .ts,
-.transcript-line .ts,
-.tag-chapter-line .ts {
+.transcript-line .ts {
   font-size: .75rem;
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
@@ -517,8 +516,7 @@ h1 {
   background: var(--accent-dim);
 }
 
-.transcript-line .ts,
-.tag-chapter-line .ts {
+.transcript-line .ts {
   padding-top: .1em;
 }
 
@@ -737,11 +735,6 @@ a.chapter-block-header:hover {
   gap: .15rem;
 }
 
-.tag-chapter-line {
-  display: flex;
-  gap: .5rem;
-  font-size: .85rem;
-}
 
 
 /* ── Chapter match card (in search results) ──────────────────────────── */

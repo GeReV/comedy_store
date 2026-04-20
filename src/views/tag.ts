@@ -94,7 +94,7 @@ export function renderTagView(
         const linesEl = document.createElement("div");
         linesEl.className = "tag-chapter-lines";
         for (const l of chapterLines) {
-          linesEl.appendChild(makeLineEl(l, "tag-chapter-line"));
+          linesEl.appendChild(makeLineEl(l, "transcript-line"));
         }
         card.appendChild(linesEl);
       }
