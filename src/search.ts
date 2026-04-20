@@ -1,4 +1,4 @@
-import type { DisplayEntry, EpisodeIndex, EpisodeLines, EpisodeSearchResult, } from "./types.js";
+import type { Chapter, ChapterMatch, DisplayEntry, EpisodeIndex, EpisodeLines, EpisodeSearchResult } from "./types.js";
 
 export const MIN_QUERY_LENGTH = 2;
 
@@ -20,15 +20,31 @@ export const MAX_MERGED_LINES = 10;
  */
 export const MERGE_CONTEXT_ENTRIES = true;
 
-/** Quick check: does any line in this episode match the query? */
-export function episodeHasMatch(lines: EpisodeLines, query: string): boolean {
+/** Quick check: does any line or chapter in this episode match the query? */
+export function episodeHasMatch(
+  lines: EpisodeLines,
+  query: string,
+  chapters?: Chapter[],
+): boolean {
   const q = query.trim().toLowerCase();
 
   if (q.length < MIN_QUERY_LENGTH) {
     return false;
   }
 
-  return lines.some((l) => l.text.toLowerCase().includes(q));
+  if (lines.some((l) => l.text.toLowerCase().includes(q))) {
+    return true;
+  }
+
+  if (chapters) {
+    return chapters.some(
+      (ch) =>
+        ch.name.toLowerCase().includes(q) ||
+        ch.tags.some((t) => t.toLowerCase().includes(q)),
+    );
+  }
+
+  return false;
 }
 
 /**
@@ -55,7 +71,6 @@ function buildDisplayEntries(
 
     const prev = entries.at(-1);
     if (MERGE_CONTEXT_ENTRIES && prev && start <= prev.endIdx + 1) {
-      // Merge: extend the previous entry, honouring the line cap
       const newEnd = Math.min(
         Math.max(prev.endIdx, end),
         prev.startIdx + MAX_MERGED_LINES - 1,
@@ -76,6 +91,7 @@ export function searchEpisodes(
   index: EpisodeIndex,
   subtitles: Map<string, EpisodeLines>,
   query: string,
+  chapterMap?: Map<string, Chapter[]>,
 ): EpisodeSearchResult[] {
   const q = query.trim().toLowerCase();
 
@@ -95,21 +111,30 @@ export function searchEpisodes(
     const matchIndices: number[] = [];
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-
-      if (!line) {
-        continue;
-      }
-
+      if (!line) continue;
       if (line.text.toLowerCase().includes(q)) {
         matchIndices.push(i);
       }
     }
 
-    if (matchIndices.length > 0) {
+    const chapterMatches: ChapterMatch[] = [];
+    const chapters = chapterMap?.get(episode.id) ?? [];
+    for (let i = 0; i < chapters.length; i++) {
+      const ch = chapters[i];
+      if (!ch) continue;
+      const nameMatch = ch.name.toLowerCase().includes(q);
+      const tagMatch = ch.tags.some((t) => t.toLowerCase().includes(q));
+      if (nameMatch || tagMatch) {
+        chapterMatches.push({ chapterIdx: i + 1, chapter: ch });
+      }
+    }
+
+    if (matchIndices.length > 0 || chapterMatches.length > 0) {
       results.push({
         episode,
         entries: buildDisplayEntries(matchIndices, lines.length),
-        totalMatches: matchIndices.length,
+        totalMatches: matchIndices.length + chapterMatches.length,
+        chapterMatches: chapterMatches.length > 0 ? chapterMatches : undefined,
       });
     }
   }
