@@ -102,9 +102,8 @@ class ChapterList:
         if not (ch.start_ns < split_ns < ch.end_ns):
             return
         before = self._snapshot()
-        chars = list(ch.characters)
-        self._chapters[index] = Chapter(ch.start_ns, split_ns, ch.name, list(chars))
-        self._chapters.insert(index + 1, Chapter(split_ns, ch.end_ns, ch.name, list(chars)))
+        self._chapters[index] = Chapter(ch.start_ns, split_ns, ch.name, list(ch.characters))
+        self._chapters.insert(index + 1, Chapter(split_ns, ch.end_ns, ch.name, list(ch.characters)))
         after = self._snapshot()
         self._record(before, after)
 

@@ -35,7 +35,10 @@ class CharacterRegistry:
             self._characters = []
 
     def _save(self) -> None:
-        self._path.write_text(
-            json.dumps(self._characters, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
+        try:
+            self._path.write_text(
+                json.dumps(self._characters, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except OSError:
+            pass  # best-effort persistence; in-memory state is still valid
