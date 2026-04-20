@@ -129,6 +129,8 @@ class ChapterList:
         self._record(before, after)
 
     def set_all_characters(self, by_index: dict[int, list[str]]) -> None:
+        if not by_index:
+            return
         before = self._snapshot()
         for index, characters in by_index.items():
             self._chapters[index].characters = list(characters)

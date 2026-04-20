@@ -263,3 +263,18 @@ def test_set_all_characters_single_undo_entry():
     assert cl[0].characters == []
     assert cl[1].characters == []
     assert not cl.can_undo  # only one entry was pushed
+
+
+def test_set_all_characters_empty_dict_no_undo_entry():
+    cl = _make_list()
+    cl.set_all_characters({})
+    assert not cl.can_undo
+
+
+def test_set_characters_undo_redo():
+    cl = _make_list()
+    cl.set_characters(0, ["Avi"])
+    cl.undo()
+    assert cl[0].characters == []
+    cl.redo()
+    assert cl[0].characters == ["Avi"]
