@@ -1,6 +1,6 @@
 // src/__tests__/router.test.ts
 import { describe, it, expect } from "vitest";
-import { parseHash, buildEpisodeHash } from "../router.js";
+import { parseHash, buildEpisodeHash, buildTagHash } from "../router.js";
 
 describe("parseHash", () => {
     it("empty hash → welcome", () => {
@@ -59,6 +59,18 @@ describe("parseHash", () => {
         const result = parseHash(`#episode/${encoded}`);
         expect(result).toEqual({ kind: "episode", id: "פרק_001", lineIndex: undefined, query: undefined });
     });
+
+    it("tag hash → tag route", () => {
+        const encoded = encodeURIComponent("יש-לי יש-לי");
+        expect(parseHash(`#tag/${encoded}`)).toEqual({
+            kind: "tag",
+            tag: "יש-לי יש-לי",
+        });
+    });
+
+    it("tag hash with ASCII name → tag route", () => {
+        expect(parseHash("#tag/comedy")).toEqual({ kind: "tag", tag: "comedy" });
+    });
 });
 
 describe("buildEpisodeHash", () => {
@@ -88,5 +100,17 @@ describe("buildEpisodeHash", () => {
 
     it("encodes episode id", () => {
         expect(buildEpisodeHash("פרק_001")).toBe(`episode/${encodeURIComponent("פרק_001")}`);
+    });
+});
+
+describe("buildTagHash", () => {
+    it("encodes tag name", () => {
+        expect(buildTagHash("יש-לי יש-לי")).toBe(
+            `tag/${encodeURIComponent("יש-לי יש-לי")}`,
+        );
+    });
+
+    it("plain ASCII tag", () => {
+        expect(buildTagHash("comedy")).toBe("tag/comedy");
     });
 });

@@ -2,7 +2,8 @@ export type Route =
     | { kind: "welcome" }
     | { kind: "results"; query: string }
     | { kind: "episode"; id: string; lineIndex?: number; query?: string }
-    | { kind: "chapter"; episodeId: string; chapterIdx: number };
+    | { kind: "chapter"; episodeId: string; chapterIdx: number }
+    | { kind: "tag"; tag: string };
 
 export function parseHash(hash: string): Route {
     const raw = hash.startsWith("#") ? hash.slice(1) : hash;
@@ -11,6 +12,11 @@ export function parseHash(hash: string): Route {
     if (raw.startsWith("search/")) {
         const query = decodeURIComponent(raw.slice("search/".length));
         return { kind: "results", query };
+    }
+
+    if (raw.startsWith("tag/")) {
+        const tag = decodeURIComponent(raw.slice("tag/".length));
+        return { kind: "tag", tag };
     }
 
     if (raw.startsWith("episode/")) {
@@ -44,4 +50,8 @@ export function buildEpisodeHash(id: string, lineIndex?: number, query?: string)
     if (lineIndex !== undefined) { h += `/${lineIndex}`; }
     if (query) { h += `?q=${encodeURIComponent(query)}`; }
     return h;
+}
+
+export function buildTagHash(tag: string): string {
+    return `tag/${encodeURIComponent(tag)}`;
 }
