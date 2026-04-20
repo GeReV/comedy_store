@@ -22,7 +22,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>12</ChapterUID>
+      <ChapterUID>11</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -31,7 +31,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>15</ChapterUID>
+      <ChapterUID>13</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -40,7 +40,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>16</ChapterUID>
+      <ChapterUID>14</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -49,7 +49,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>22</ChapterUID>
+      <ChapterUID>20</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -58,7 +58,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>28</ChapterUID>
+      <ChapterUID>23</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -67,7 +67,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>32</ChapterUID>
+      <ChapterUID>26</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>

@@ -13,7 +13,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>13</ChapterUID>
+      <ChapterUID>11</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -22,7 +22,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>26</ChapterUID>
+      <ChapterUID>16</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -31,7 +31,25 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>32</ChapterUID>
+      <ChapterUID>17</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>21</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>22</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>

@@ -4,7 +4,7 @@
 <Tags>
   <Tag>
     <Targets>
-      <ChapterUID>9</ChapterUID>
+      <ChapterUID>6</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -13,7 +13,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>10</ChapterUID>
+      <ChapterUID>7</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -22,7 +22,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>13</ChapterUID>
+      <ChapterUID>9</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -31,7 +31,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>14</ChapterUID>
+      <ChapterUID>10</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
