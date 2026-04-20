@@ -1,4 +1,4 @@
-import type { EpisodeIndex, EpisodeLines } from "./types.js";
+import type { Chapter, EpisodeIndex, EpisodeLines } from "./types.js";
 import { episodeHasMatch, MIN_QUERY_LENGTH } from "./search.js";
 
 export function renderSidebar(
@@ -33,6 +33,7 @@ export function updateSidebarState(
   subtitles: Map<string, EpisodeLines>,
   query: string,
   currentEpisodeId?: string,
+  chapterMap?: Map<string, Chapter[]>,
 ): void {
   const q = query.trim().toLowerCase();
   const filtering = q.length >= MIN_QUERY_LENGTH && subtitles.size > 0;
@@ -54,7 +55,8 @@ export function updateSidebarState(
 
     if (filtering) {
       const lines = subtitles.get(epId);
-      const hasMatch = lines ? episodeHasMatch(lines, q) : false;
+      const chapters = chapterMap?.get(epId);
+      const hasMatch = lines ? episodeHasMatch(lines, q, chapters) : false;
       li.classList.toggle("has-match", hasMatch);
       li.classList.toggle("no-match", !hasMatch);
     } else {
@@ -62,6 +64,5 @@ export function updateSidebarState(
     }
   }
 
-  // Scroll current episode into view within the sidebar
   currentEl?.scrollIntoView({ block: "nearest" });
 }
