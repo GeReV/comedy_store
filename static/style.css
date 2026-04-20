@@ -636,3 +636,122 @@ a.chapter-block-header:hover {
     display: block;
   }
 }
+
+/* ── Tag pills ───────────────────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  padding: .15em .5em;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--tag-color);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity .15s;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tag:hover {
+  opacity: .8;
+}
+
+.chapter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-top: .3rem;
+}
+
+/* ── Tag view ─────────────────────────────────────────────────────────── */
+.tag-view-heading {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag-view-count {
+  font-size: .9rem;
+  color: var(--text-muted);
+}
+
+.tag-episode-section {
+  margin-bottom: 1.5rem;
+}
+
+.tag-episode-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: .5rem;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+
+.tag-episode-title:hover {
+  color: var(--accent);
+}
+
+.tag-chapter-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem;
+  padding: .4rem .75rem;
+  margin-bottom: .35rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  text-decoration: none;
+  transition: background .1s;
+}
+
+.tag-chapter-card:hover {
+  background: var(--surface-alt);
+}
+
+.tag-chapter-card strong {
+  font-weight: 600;
+}
+
+.tag-chapter-card small {
+  font-size: .8rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── Chapter match card (in search results) ──────────────────────────── */
+.chapter-match-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem;
+  padding: .4rem .75rem;
+  margin-bottom: .35rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  text-decoration: none;
+  transition: background .1s;
+}
+
+.chapter-match-card:hover {
+  background: var(--surface-alt);
+}
+
+.chapter-match-card strong {
+  font-weight: 600;
+}
+
+.chapter-match-card small {
+  font-size: .8rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
