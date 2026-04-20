@@ -1,8 +1,8 @@
-import type { EpisodeSearchResult, EpisodeLines, DisplayEntry } from "../types.js";
+import type { ChapterMatch, EpisodeSearchResult, EpisodeLines } from "../types.js";
 import { MAX_ENTRIES_PER_GROUP } from "../search.js";
 import { applyHighlights } from "../highlight.js";
 import { buildEpisodeHash } from "../router.js";
-import { formatTime } from "../utils";
+import { formatTime, tagColor } from "../utils.js";
 
 const noResultsEl = document.createElement("p");
 noResultsEl.className = "state-message";
@@ -29,7 +29,7 @@ export function renderResults(
 
   const frag = document.createDocumentFragment();
 
-  for (const { episode, entries, totalMatches: epTotal } of results) {
+  for (const { episode, entries, totalMatches: epTotal, chapterMatches } of results) {
     const lines = subtitles.get(episode.id) ?? [];
 
     const section = document.createElement("div");
@@ -50,6 +50,12 @@ export function renderResults(
     header.appendChild(titleEl);
     header.appendChild(countEl);
     section.appendChild(header);
+
+    if (chapterMatches && chapterMatches.length > 0) {
+      for (const match of chapterMatches) {
+        section.appendChild(renderChapterMatchCard(match, episode.id));
+      }
+    }
 
     const visible = entries.slice(0, MAX_ENTRIES_PER_GROUP);
     const overflow = entries.slice(MAX_ENTRIES_PER_GROUP);
@@ -79,8 +85,39 @@ export function renderResults(
   container.appendChild(frag);
 }
 
+function renderChapterMatchCard(match: ChapterMatch, episodeId: string): HTMLElement {
+  const card = document.createElement("a");
+  card.className = "chapter-match-card";
+  card.href = `#episode/${encodeURIComponent(episodeId)}/ch-${match.chapterIdx}`;
+
+  if (match.chapter.name) {
+    const nameEl = document.createElement("strong");
+    nameEl.textContent = match.chapter.name;
+    card.appendChild(nameEl);
+  }
+
+  const timeEl = document.createElement("small");
+  timeEl.textContent = `${formatTime(match.chapter.start)} – ${formatTime(match.chapter.end)}`;
+  card.appendChild(timeEl);
+
+  if (match.chapter.tags.length > 0) {
+    const tagsEl = document.createElement("div");
+    tagsEl.className = "chapter-tags";
+    for (const tag of match.chapter.tags) {
+      const tagEl = document.createElement("span");
+      tagEl.className = "tag";
+      tagEl.textContent = tag;
+      tagEl.style.setProperty("--tag-color", tagColor(tag));
+      tagsEl.appendChild(tagEl);
+    }
+    card.appendChild(tagsEl);
+  }
+
+  return card;
+}
+
 function renderEntry(
-  entry: DisplayEntry,
+  entry: import("../types.js").DisplayEntry,
   lines: EpisodeLines,
   episodeId: string,
   query: string,
