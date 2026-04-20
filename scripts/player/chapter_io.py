@@ -60,8 +60,12 @@ class MatroskaIO:
         edition = doc.createElement("EditionEntry")
         root.appendChild(edition)
 
-        for ch in chapters:
+        for i, ch in enumerate(chapters):
             atom = doc.createElement("ChapterAtom")
+
+            uid_el = doc.createElement("ChapterUID")
+            uid_el.appendChild(doc.createTextNode(str(i + 1)))
+            atom.appendChild(uid_el)
 
             start_el = doc.createElement("ChapterTimeStart")
             start_el.appendChild(doc.createTextNode(str(ch.start_ns)))

@@ -1,4 +1,5 @@
 import textwrap
+import xml.etree.ElementTree as ET
 from pathlib import Path
 import pytest
 from scripts.player.chapter_io import MatroskaIO
@@ -70,7 +71,6 @@ def test_write_produces_readable_xml(tmp_path: Path):
     MatroskaIO().write(chapters, out)
     assert out.exists()
     # Must be parseable XML
-    import xml.etree.ElementTree as ET
     ET.parse(out)
 
 
@@ -106,3 +106,15 @@ def test_output_path_for_chapters_xml():
 def test_output_path_for_other_extension():
     p = Path("/some/episode.xml")
     assert output_path_for(p) == Path("/some/episode.edited.xml")
+
+
+def test_write_includes_chapter_uid(tmp_path: Path):
+    chapters = [
+        Chapter(start_ns=0, end_ns=3_000_000_000, name="First"),
+        Chapter(start_ns=3_000_000_000, end_ns=8_000_000_000, name="Second"),
+    ]
+    out = tmp_path / "out.chapters.xml"
+    MatroskaIO().write(chapters, out)
+    tree = ET.parse(out)
+    uids = [el.text for el in tree.getroot().iter("ChapterUID")]
+    assert uids == ["1", "2"]
