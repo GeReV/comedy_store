@@ -2,7 +2,7 @@ import type { ChapterMatch, EpisodeSearchResult, EpisodeLines } from "../types.j
 import { MAX_ENTRIES_PER_GROUP } from "../search.js";
 import { applyHighlights } from "../highlight.js";
 import { buildEpisodeHash } from "../router.js";
-import { formatTime, tagColor } from "../utils.js";
+import { formatTime, makeTagEl } from "../utils.js";
 
 const noResultsEl = document.createElement("p");
 noResultsEl.className = "state-message";
@@ -86,34 +86,35 @@ export function renderResults(
 }
 
 function renderChapterMatchCard(match: ChapterMatch, episodeId: string): HTMLElement {
-  const card = document.createElement("a");
-  card.className = "chapter-match-card";
-  card.href = `#episode/${encodeURIComponent(episodeId)}/ch-${match.chapterIdx}`;
+  const wrap = document.createElement("div");
+  wrap.className = "chapter-match-card";
+
+  const link = document.createElement("a");
+  link.className = "chapter-match-card-link";
+  link.href = `#episode/${encodeURIComponent(episodeId)}/ch-${match.chapterIdx}`;
 
   if (match.chapter.name) {
     const nameEl = document.createElement("strong");
     nameEl.textContent = match.chapter.name;
-    card.appendChild(nameEl);
+    link.appendChild(nameEl);
   }
 
   const timeEl = document.createElement("small");
   timeEl.textContent = `${formatTime(match.chapter.start)} – ${formatTime(match.chapter.end)}`;
-  card.appendChild(timeEl);
+  link.appendChild(timeEl);
+
+  wrap.appendChild(link);
 
   if (match.chapter.tags.length > 0) {
     const tagsEl = document.createElement("div");
     tagsEl.className = "chapter-tags";
     for (const tag of match.chapter.tags) {
-      const tagEl = document.createElement("span");
-      tagEl.className = "tag";
-      tagEl.textContent = tag;
-      tagEl.style.setProperty("--tag-color", tagColor(tag));
-      tagsEl.appendChild(tagEl);
+      tagsEl.appendChild(makeTagEl(tag));
     }
-    card.appendChild(tagsEl);
+    wrap.appendChild(tagsEl);
   }
 
-  return card;
+  return wrap;
 }
 
 function renderEntry(

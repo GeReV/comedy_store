@@ -1,7 +1,7 @@
 import type { Chapter, EpisodeMetadata, EpisodeLines } from "../types.js";
 import { MIN_QUERY_LENGTH } from "../search.js";
 import { applyHighlights, clearHighlights } from "../highlight.js";
-import { formatTime, makeLineEl, tagColor } from "../utils.js";
+import { formatTime, makeLineEl, makeTagEl } from "../utils.js";
 
 export interface ChapterBlockData {
   el: HTMLElement;
@@ -68,14 +68,6 @@ export function renderEpisode(
   return { listEl: list, lineEls, chapterBlocks };
 }
 
-
-function makeTagEl(tag: string): HTMLElement {
-  const span = document.createElement("span");
-  span.className = "tag";
-  span.textContent = tag;
-  span.style.setProperty("--tag-color", tagColor(tag));
-  return span;
-}
 
 function renderFlat(
     list: HTMLElement,
@@ -152,16 +144,16 @@ function renderWithChapters(
     timeEl.textContent = `${formatTime(ch.start)} – ${formatTime(ch.end)}`;
     headerEl.appendChild(timeEl);
 
+    block.appendChild(headerEl);
+
     if (ch.tags.length > 0) {
       const tagsEl = document.createElement("div");
       tagsEl.className = "chapter-tags";
       for (const tag of ch.tags) {
         tagsEl.appendChild(makeTagEl(tag));
       }
-      headerEl.appendChild(tagsEl);
+      block.appendChild(tagsEl);
     }
-
-    block.appendChild(headerEl);
 
     frag.appendChild(block);
     return { el: block, headerEl: headerEl, lineEls: [], chapter: ch, chapterIdx: i + 1 };

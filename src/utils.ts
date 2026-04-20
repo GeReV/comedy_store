@@ -1,4 +1,14 @@
 import type { Line } from "./types.js";
+import { buildTagHash } from "./router.js";
+
+export function makeTagEl(tag: string): HTMLAnchorElement {
+  const a = document.createElement("a");
+  a.className = "tag";
+  a.textContent = tag;
+  a.href = `#${buildTagHash(tag)}`;
+  a.style.setProperty("--tag-color", tagColor(tag));
+  return a;
+}
 
 export function makeLineEl(line: Line, className: string, idx?: number): HTMLElement {
   const el = document.createElement("div");

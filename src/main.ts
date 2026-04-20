@@ -1,5 +1,5 @@
 import type {EpisodeIndex, EpisodeLines, EpisodeMetadata} from "./types.js";
-import {parseHash, buildEpisodeHash, buildTagHash} from "./router.js";
+import {parseHash, buildEpisodeHash} from "./router.js";
 import type {Route} from "./router.js";
 import {loadBundle, loadEpisode, getCachedSubtitles, getEpisodeChapters, getCachedChapters, getTagIndex} from "./loader.js";
 import {searchEpisodes, MIN_QUERY_LENGTH} from "./search.js";
@@ -104,15 +104,6 @@ themeToggleEl.addEventListener("click", () => {
 sidebarToggleEl.addEventListener("click", openSidebar);
 backdropEl.addEventListener("click", closeSidebar);
 
-mainPaneEl.addEventListener("click", (e) => {
-    const tagEl = (e.target as Element).closest<HTMLElement>(".tag");
-    if (!tagEl) return;
-    const tag = tagEl.textContent ?? "";
-    if (tag) {
-        e.preventDefault();
-        window.location.hash = `#${buildTagHash(tag)}`;
-    }
-});
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && document.body.classList.contains("sidebar-open")) {
