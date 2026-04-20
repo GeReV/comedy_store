@@ -206,3 +206,27 @@ def test_move_boundary_undo():
     cl.undo()
     assert cl[0].end_ns == 5_000_000_000
     assert cl[1].start_ns == 5_000_000_000
+
+
+def test_chapter_default_characters():
+    ch = Chapter(0, 5_000_000_000, "Intro")
+    assert ch.characters == []
+
+
+def test_chapter_accepts_characters():
+    ch = Chapter(0, 5_000_000_000, "Intro", characters=["Avi Kushnir"])
+    assert ch.characters == ["Avi Kushnir"]
+
+
+def test_snapshot_preserves_characters():
+    cl = ChapterList([Chapter(0, 5_000_000_000, "A", characters=["Avi"])])
+    cl.rename(0, "B")   # triggers before/after snapshot
+    cl.undo()
+    assert cl[0].characters == ["Avi"]
+
+
+def test_chapters_property_copies_characters():
+    cl = ChapterList([Chapter(0, 5_000_000_000, "A", characters=["Avi"])])
+    result = cl.chapters
+    result[0].characters.append("MUTATED")
+    assert cl[0].characters == ["Avi"]  # internal state unchanged

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable
 
 
@@ -8,6 +8,7 @@ class Chapter:
     start_ns: int
     end_ns: int
     name: str
+    characters: list[str] = field(default_factory=list)
 
 
 class UndoStack:
@@ -57,7 +58,7 @@ class ChapterList:
 
     @property
     def chapters(self) -> list[Chapter]:
-        return [Chapter(c.start_ns, c.end_ns, c.name) for c in self._chapters]
+        return [Chapter(c.start_ns, c.end_ns, c.name, list(c.characters)) for c in self._chapters]
 
     def current_index(self, position_ns: int) -> int:
         for i, ch in enumerate(self._chapters):
@@ -124,7 +125,7 @@ class ChapterList:
     # --- private helpers ---
 
     def _snapshot(self) -> list[Chapter]:
-        return [Chapter(c.start_ns, c.end_ns, c.name) for c in self._chapters]
+        return [Chapter(c.start_ns, c.end_ns, c.name, list(c.characters)) for c in self._chapters]
 
     def _restore(self, snapshot: list[Chapter]) -> None:
         self._chapters.clear()
