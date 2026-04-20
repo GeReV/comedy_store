@@ -16,3 +16,14 @@ export function formatTime(seconds: number): string {
   }
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
+
+const TAG_PALETTE = [0, 25, 50, 100, 145, 175, 200, 220, 255, 280, 315, 345];
+
+export function tagColor(tag: string): string {
+  let hash = 0;
+  for (let i = 0; i < tag.length; i++) {
+    hash += tag.charCodeAt(i);
+  }
+  const hue = TAG_PALETTE[hash % TAG_PALETTE.length];
+  return `hsl(${hue}, 60%, 42%)`;
+}
