@@ -278,3 +278,30 @@ def test_set_characters_undo_redo():
     assert cl[0].characters == []
     cl.redo()
     assert cl[0].characters == ["Avi"]
+
+
+def test_split_copies_characters_to_both_halves():
+    cl = ChapterList([Chapter(0, 10_000_000_000, "A", characters=["Avi", "Dana"])])
+    cl.split(0, 5_000_000_000)
+    assert cl[0].characters == ["Avi", "Dana"]
+    assert cl[1].characters == ["Avi", "Dana"]
+
+
+def test_merge_unions_characters():
+    cl = ChapterList([
+        Chapter(0, 5_000_000_000, "A", characters=["Avi", "Moni"]),
+        Chapter(5_000_000_000, 10_000_000_000, "B", characters=["Dana", "Avi"]),
+    ])
+    cl.merge_with_previous(1)
+    assert cl[0].characters == ["Avi", "Dana", "Moni"]  # sorted, deduplicated
+
+
+def test_merge_characters_undo():
+    cl = ChapterList([
+        Chapter(0, 5_000_000_000, "A", characters=["Avi"]),
+        Chapter(5_000_000_000, 10_000_000_000, "B", characters=["Dana"]),
+    ])
+    cl.merge_with_previous(1)
+    cl.undo()
+    assert cl[0].characters == ["Avi"]
+    assert cl[1].characters == ["Dana"]
