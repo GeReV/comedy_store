@@ -19,6 +19,18 @@ def output_path_for(chapters_path: Path) -> Path:
     return chapters_path.with_suffix(".edited.xml")
 
 
+def tags_output_path_for(chapters_path: Path) -> Path:
+    """Derive the tags output path from a chapters file path."""
+    name = chapters_path.name
+    if name.endswith(".edited.chapters.xml"):
+        base = name[: -len(".edited.chapters.xml")]
+    elif name.endswith(".chapters.xml"):
+        base = name[: -len(".chapters.xml")]
+    else:
+        base = chapters_path.stem
+    return chapters_path.parent / (base + ".edited.tags.xml")
+
+
 class ChapterReader(Protocol):
     def read(self, path: Path) -> list[Chapter]: ...
 
@@ -85,6 +97,69 @@ class MatroskaIO:
             atom.appendChild(display)
 
             edition.appendChild(atom)
+
+        with open(path, "w", encoding="utf-8") as f:
+            doc.writexml(f, addindent="  ", newl="\n", encoding="UTF-8")
+
+
+class MatroskaTagsIO:
+    def read(self, path: Path, chapters: list[Chapter]) -> None:
+        """Populate chapters[].characters in-place from a Matroska Tags XML file."""
+        tree = ET.parse(path)
+        root = tree.getroot()
+        for tag in root.iter("Tag"):
+            targets = tag.find("Targets")
+            if targets is None:
+                continue
+            uid_el = targets.find("ChapterUID")
+            if uid_el is None or uid_el.text is None:
+                continue
+            idx = int(uid_el.text) - 1
+            if idx < 0 or idx >= len(chapters):
+                continue
+            characters = []
+            for simple in tag.findall("Simple"):
+                name_el = simple.find("Name")
+                string_el = simple.find("String")
+                if (
+                    name_el is not None
+                    and name_el.text == "CHARACTER"
+                    and string_el is not None
+                    and string_el.text
+                ):
+                    characters.append(string_el.text)
+            chapters[idx].characters = characters
+
+    def write(self, chapters: list[Chapter], path: Path) -> None:
+        impl = getDOMImplementation()
+        doc = impl.createDocument(
+            None, "Tags",
+            impl.createDocumentType("Tags", None, "matroskatags.dtd"),
+        )
+        root = doc.documentElement
+
+        for i, ch in enumerate(chapters):
+            if not ch.characters:
+                continue
+            tag = doc.createElement("Tag")
+
+            targets = doc.createElement("Targets")
+            uid_el = doc.createElement("ChapterUID")
+            uid_el.appendChild(doc.createTextNode(str(i + 1)))
+            targets.appendChild(uid_el)
+            tag.appendChild(targets)
+
+            for character in ch.characters:
+                simple = doc.createElement("Simple")
+                name_el = doc.createElement("Name")
+                name_el.appendChild(doc.createTextNode("CHARACTER"))
+                simple.appendChild(name_el)
+                string_el = doc.createElement("String")
+                string_el.appendChild(doc.createTextNode(character))
+                simple.appendChild(string_el)
+                tag.appendChild(simple)
+
+            root.appendChild(tag)
 
         with open(path, "w", encoding="utf-8") as f:
             doc.writexml(f, addindent="  ", newl="\n", encoding="UTF-8")

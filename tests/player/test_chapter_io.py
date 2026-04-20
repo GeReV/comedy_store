@@ -118,3 +118,64 @@ def test_write_includes_chapter_uid(tmp_path: Path):
     tree = ET.parse(out)
     uids = [el.text for el in tree.getroot().iter("ChapterUID")]
     assert uids == ["1", "2"]
+
+
+from scripts.player.chapter_io import MatroskaTagsIO, tags_output_path_for
+
+
+def test_tags_output_path_for_edited_chapters():
+    p = Path("/some/episode.edited.chapters.xml")
+    assert tags_output_path_for(p) == Path("/some/episode.edited.tags.xml")
+
+
+def test_tags_output_path_for_chapters_xml():
+    p = Path("/some/episode.chapters.xml")
+    assert tags_output_path_for(p) == Path("/some/episode.edited.tags.xml")
+
+
+def _make_tagged_chapters() -> list[Chapter]:
+    return [
+        Chapter(0, 5_000_000_000, "Intro"),
+        Chapter(5_000_000_000, 10_000_000_000, "Sketch", characters=["Avi Kushnir", "Dana Modan"]),
+        Chapter(10_000_000_000, 20_000_000_000, "End"),
+    ]
+
+
+def test_tags_write_and_read_roundtrip(tmp_path: Path):
+    chapters = _make_tagged_chapters()
+    path = tmp_path / "ep.edited.tags.xml"
+    io = MatroskaTagsIO()
+    io.write(chapters, path)
+
+    recovered = [Chapter(c.start_ns, c.end_ns, c.name) for c in chapters]
+    io.read(path, recovered)
+
+    assert recovered[0].characters == []
+    assert recovered[1].characters == ["Avi Kushnir", "Dana Modan"]
+    assert recovered[2].characters == []
+
+
+def test_tags_write_skips_chapters_with_no_characters(tmp_path: Path):
+    chapters = [Chapter(0, 5_000_000_000, "Empty")]
+    path = tmp_path / "ep.edited.tags.xml"
+    MatroskaTagsIO().write(chapters, path)
+    root = ET.parse(path).getroot()
+    assert list(root) == []  # no <Tag> elements written
+
+
+def test_tags_read_ignores_out_of_range_uid(tmp_path: Path):
+    xml = textwrap.dedent("""\
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE Tags SYSTEM "matroskatags.dtd">
+        <Tags>
+          <Tag>
+            <Targets><ChapterUID>99</ChapterUID></Targets>
+            <Simple><Name>CHARACTER</Name><String>Ghost</String></Simple>
+          </Tag>
+        </Tags>
+    """)
+    path = tmp_path / "ep.edited.tags.xml"
+    path.write_text(xml, encoding="utf-8")
+    chapters = [Chapter(0, 5_000_000_000, "Only")]
+    MatroskaTagsIO().read(path, chapters)
+    assert chapters[0].characters == []
