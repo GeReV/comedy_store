@@ -8,9 +8,36 @@ function dataUrl(path: string): string {
 let indexCache: EpisodeIndex | null = null;
 const subtitleCache = new Map<string, EpisodeLines>();
 const chapterCache = new Map<string, Chapter[]>();
+let tagIndexCache: Map<string, { episodeId: string; chapterIdx: number }[]> | null = null;
 
 export function getEpisodeChapters(id: string): Chapter[] | undefined {
   return chapterCache.get(id);
+}
+
+export function getCachedChapters(): Map<string, Chapter[]> {
+  return chapterCache;
+}
+
+export function getTagIndex(): Map<string, { episodeId: string; chapterIdx: number }[]> {
+  return tagIndexCache ?? new Map();
+}
+
+function buildTagIndex(
+  chapterMap: Map<string, Chapter[]>,
+): Map<string, { episodeId: string; chapterIdx: number }[]> {
+  const index = new Map<string, { episodeId: string; chapterIdx: number }[]>();
+  for (const [episodeId, chapters] of chapterMap) {
+    for (let i = 0; i < chapters.length; i++) {
+      const ch = chapters[i];
+      if (!ch) continue;
+      for (const tag of ch.tags) {
+        const entries = index.get(tag) ?? [];
+        entries.push({ episodeId, chapterIdx: i + 1 }); // 1-based
+        index.set(tag, entries);
+      }
+    }
+  }
+  return index;
 }
 
 export type ProgressCallback = (bytesLoaded: number, totalBytes: number) => void;
@@ -103,6 +130,8 @@ function ensureBundle(onProgress?: ProgressCallback): Promise<void> {
           chapterCache.set(id, chapters);
         }
       }
+
+      tagIndexCache = buildTagIndex(chapterCache);
     });
   }
 
