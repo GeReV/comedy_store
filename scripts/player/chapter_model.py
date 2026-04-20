@@ -122,6 +122,19 @@ class ChapterList:
         after = self._snapshot()
         self._record(before, after)
 
+    def set_characters(self, index: int, characters: list[str]) -> None:
+        before = self._snapshot()
+        self._chapters[index].characters = list(characters)
+        after = self._snapshot()
+        self._record(before, after)
+
+    def set_all_characters(self, by_index: dict[int, list[str]]) -> None:
+        before = self._snapshot()
+        for index, characters in by_index.items():
+            self._chapters[index].characters = list(characters)
+        after = self._snapshot()
+        self._record(before, after)
+
     # --- private helpers ---
 
     def _snapshot(self) -> list[Chapter]:

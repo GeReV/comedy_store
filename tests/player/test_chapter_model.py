@@ -230,3 +230,36 @@ def test_chapters_property_copies_characters():
     result = cl.chapters
     result[0].characters.append("MUTATED")
     assert cl[0].characters == ["Avi"]  # internal state unchanged
+
+
+def test_set_characters():
+    cl = _make_list()
+    cl.set_characters(1, ["Avi", "Dana"])
+    assert cl[1].characters == ["Avi", "Dana"]
+    assert cl[0].characters == []  # others unchanged
+
+
+def test_set_characters_undo():
+    cl = _make_list()
+    cl.set_characters(0, ["Avi"])
+    assert cl[0].characters == ["Avi"]
+    cl.undo()
+    assert cl[0].characters == []
+
+
+def test_set_all_characters():
+    cl = _make_list()
+    cl.set_all_characters({0: ["Avi"], 2: ["Dana"]})
+    assert cl[0].characters == ["Avi"]
+    assert cl[1].characters == []
+    assert cl[2].characters == ["Dana"]
+
+
+def test_set_all_characters_single_undo_entry():
+    cl = _make_list()
+    cl.set_all_characters({0: ["Avi"], 1: ["Dana"]})
+    # One undo should restore both changes at once
+    cl.undo()
+    assert cl[0].characters == []
+    assert cl[1].characters == []
+    assert not cl.can_undo  # only one entry was pushed
