@@ -1,4 +1,4 @@
-import type { Chapter, EpisodeIndex } from "../types.js";
+import type { Chapter, EpisodeIndex, EpisodeLines } from "../types.js";
 import { formatTime, tagColor } from "../utils.js";
 
 function makeTagEl(tag: string): HTMLElement {
@@ -15,6 +15,7 @@ export function renderTagView(
   tagIndex: Map<string, { episodeId: string; chapterIdx: number }[]>,
   episodeIndex: EpisodeIndex,
   chapterMap: Map<string, Chapter[]>,
+  subtitles: Map<string, EpisodeLines>,
 ): void {
   container.replaceChildren();
 
@@ -54,6 +55,8 @@ export function renderTagView(
     epLink.textContent = ep.title;
     section.appendChild(epLink);
 
+    const lines = subtitles.get(ep.id) ?? [];
+
     for (const { chapterIdx } of epEntries) {
       const ch = chapters[chapterIdx - 1]; // chapterIdx is 1-based
       if (!ch) continue;
@@ -62,15 +65,18 @@ export function renderTagView(
       card.className = "tag-chapter-card";
       card.href = `#episode/${encodeURIComponent(ep.id)}/ch-${chapterIdx}`;
 
+      const cardHeader = document.createElement("div");
+      cardHeader.className = "tag-chapter-card-header";
+
       if (ch.name) {
         const nameEl = document.createElement("strong");
         nameEl.textContent = ch.name;
-        card.appendChild(nameEl);
+        cardHeader.appendChild(nameEl);
       }
 
       const timeEl = document.createElement("small");
       timeEl.textContent = `${formatTime(ch.start)} – ${formatTime(ch.end)}`;
-      card.appendChild(timeEl);
+      cardHeader.appendChild(timeEl);
 
       if (ch.tags.length > 0) {
         const tagsEl = document.createElement("div");
@@ -78,7 +84,29 @@ export function renderTagView(
         for (const t of ch.tags) {
           tagsEl.appendChild(makeTagEl(t));
         }
-        card.appendChild(tagsEl);
+        cardHeader.appendChild(tagsEl);
+      }
+
+      card.appendChild(cardHeader);
+
+      const chapterLines = lines.filter((l) => l.start >= ch.start && l.start < ch.end);
+      if (chapterLines.length > 0) {
+        const linesEl = document.createElement("div");
+        linesEl.className = "tag-chapter-lines";
+        for (const l of chapterLines) {
+          const row = document.createElement("div");
+          row.className = "tag-chapter-line";
+          const ts = document.createElement("time");
+          ts.className = "ts";
+          ts.textContent = formatTime(l.start);
+          const text = document.createElement("span");
+          text.className = "text";
+          text.textContent = l.text;
+          row.appendChild(ts);
+          row.appendChild(text);
+          linesEl.appendChild(row);
+        }
+        card.appendChild(linesEl);
       }
 
       section.appendChild(card);

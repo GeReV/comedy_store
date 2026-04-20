@@ -305,6 +305,7 @@ async function handleRoute(route: Route, savedScroll = 0) {
             getTagIndex(),
             episodeIndex,
             getCachedChapters(),
+            getCachedSubtitles(),
         );
         mainPaneEl.scrollTop = savedScroll;
         return;

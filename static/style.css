@@ -697,9 +697,8 @@ a.chapter-block-header:hover {
 
 .tag-chapter-card {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: .5rem;
+  flex-direction: column;
+  gap: .25rem;
   padding: .4rem .75rem;
   margin-bottom: .35rem;
   background: var(--surface);
@@ -723,6 +722,36 @@ a.chapter-block-header:hover {
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+.tag-chapter-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem;
+}
+
+.tag-chapter-lines {
+  width: 100%;
+  margin-top: .4rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+
+.tag-chapter-line {
+  display: flex;
+  gap: .5rem;
+  font-size: .85rem;
+}
+
+.tag-chapter-line .ts {
+  flex-shrink: 0;
+  font-size: .75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-top: .1em;
 }
 
 /* ── Chapter match card (in search results) ──────────────────────────── */
