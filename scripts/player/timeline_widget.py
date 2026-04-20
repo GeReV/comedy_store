@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtCore import QPoint, Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor, QPainter, QPen, QPolygon
-from PyQt6.QtCore import QPoint
 from PyQt6.QtWidgets import QWidget
 
 from .chapter_model import ChapterList
@@ -15,6 +14,7 @@ _TEXT_COLOR = QColor(255, 255, 255, 200)
 
 class TimelineWidget(QWidget):
     seek_requested = pyqtSignal(int)  # milliseconds
+    chapter_context_menu_requested = pyqtSignal(int, QPoint)  # chapter_idx, global pos
 
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -85,6 +85,23 @@ class TimelineWidget(QWidget):
         painter.setBrush(QBrush(_PLAYHEAD_COLOR))
         painter.setPen(Qt.PenStyle.NoPen)
         painter.drawPolygon(triangle)
+
+    def _chapter_index_at(self, x: float) -> int:
+        if self._chapters is None or len(self._chapters) == 0:
+            return -1
+        first_ns = self._chapters[0].start_ns
+        last_ns = self._chapters[len(self._chapters) - 1].end_ns
+        total_ns = last_ns - first_ns
+        if total_ns == 0:
+            return -1
+        frac = max(0.0, min(1.0, x / self.width()))
+        ns = first_ns + int(frac * total_ns)
+        return self._chapters.current_index(ns)
+
+    def contextMenuEvent(self, event) -> None:  # type: ignore[override]
+        idx = self._chapter_index_at(event.position().x())
+        if idx >= 0:
+            self.chapter_context_menu_requested.emit(idx, event.globalPosition().toPoint())
 
     def mousePressEvent(self, event) -> None:  # type: ignore[override]
         self._seek_from_x(event.position().x())
