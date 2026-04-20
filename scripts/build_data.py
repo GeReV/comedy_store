@@ -121,7 +121,12 @@ def parse_tags_xml(path: Path) -> dict[int, list[str]]:
         uid_el = targets.find("ChapterUID")
         if uid_el is None or uid_el.text is None:
             continue
-        idx = int(uid_el.text) - 1  # ChapterUID is 1-based
+        try:
+            idx = int(uid_el.text) - 1
+        except ValueError:
+            continue
+        if idx < 0:
+            continue
         characters: list[str] = []
         for simple in tag.findall("Simple"):
             name_el = simple.find("Name")
