@@ -1,7 +1,7 @@
 import type {EpisodeIndex, EpisodeLines, EpisodeMetadata} from "./types.js";
-import {parseHash, buildEpisodeHash} from "./router.js";
+import {parseHash, buildEpisodeHash, buildTagHash} from "./router.js";
 import type {Route} from "./router.js";
-import {loadBundle, loadEpisode, getCachedSubtitles, getEpisodeChapters} from "./loader.js";
+import {loadBundle, loadEpisode, getCachedSubtitles, getEpisodeChapters, getCachedChapters, getTagIndex} from "./loader.js";
 import {searchEpisodes, MIN_QUERY_LENGTH} from "./search.js";
 import {applyHighlights, clearHighlights} from "./highlight.js";
 import {renderSidebar, updateSidebarState} from "./sidebar.js";
@@ -9,6 +9,7 @@ import {renderWelcome} from "./views/list.js";
 import {renderResults} from "./views/results.js";
 import {renderEpisode, applyQueryFilter} from "./views/episode.js";
 import type {ChapterBlockData} from "./views/episode.js";
+import {renderTagView} from "./views/tag.js";
 import {ensure} from "./utils.js";
 import {measure} from "./perf.js";
 
@@ -103,6 +104,16 @@ themeToggleEl.addEventListener("click", () => {
 sidebarToggleEl.addEventListener("click", openSidebar);
 backdropEl.addEventListener("click", closeSidebar);
 
+mainPaneEl.addEventListener("click", (e) => {
+    const tagEl = (e.target as Element).closest<HTMLElement>(".tag");
+    if (!tagEl) return;
+    const tag = tagEl.textContent ?? "";
+    if (tag) {
+        e.preventDefault();
+        window.location.hash = `#${buildTagHash(tag)}`;
+    }
+});
+
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && document.body.classList.contains("sidebar-open")) {
         closeSidebar();
@@ -162,6 +173,12 @@ function setBreadcrumb(route: Route, prevQuery?: string) {
         epLink.href = `#episode/${encodeURIComponent(route.episodeId)}`;
         epLink.textContent = epTitle;
         breadcrumbEl.replaceChildren(bcHomeLink, makeSep(), epLink, makeSep(), makeSpan(chLabel));
+        return;
+    }
+
+    if (route.kind === "tag") {
+        breadcrumbEl.replaceChildren(bcHomeLink, makeSep(), makeSpan(`תג: ${route.tag}`));
+        return;
     }
 }
 
@@ -171,7 +188,7 @@ function syncSidebar() {
         currentRoute.kind === "episode" ? currentRoute.id :
         currentRoute.kind === "chapter" ? currentRoute.episodeId :
         undefined;
-    updateSidebarState(sidebarEl, getCachedSubtitles(), queryEl.value, activeId);
+    updateSidebarState(sidebarEl, getCachedSubtitles(), queryEl.value, activeId, getCachedChapters());
 }
 
 // ── Router ─────────────────────────────────────────────────────────────
@@ -208,7 +225,7 @@ async function handleRoute(route: Route, savedScroll = 0) {
             return;
         }
 
-        const results = measure("search", () => searchEpisodes(episodeIndex, subs, route.query));
+        const results = measure("search", () => searchEpisodes(episodeIndex, subs, route.query, getCachedChapters()));
         setStatus(`${results.reduce((s, r) => s + r.totalMatches, 0)} תוצאות`);
         measure("render:results", () => renderResults(mainPaneEl, results, subs, route.query));
         applyHighlights(route.query, mainPaneEl);
@@ -278,6 +295,19 @@ async function handleRoute(route: Route, savedScroll = 0) {
             listEl: renderResult.listEl,
             chapterBlocks: renderResult.chapterBlocks,
         };
+        return;
+    }
+
+    if (route.kind === "tag") {
+        renderTagView(
+            mainPaneEl,
+            route.tag,
+            getTagIndex(),
+            episodeIndex,
+            getCachedChapters(),
+        );
+        mainPaneEl.scrollTop = savedScroll;
+        return;
     }
 }
 
@@ -302,7 +332,7 @@ queryEl.addEventListener("input", () => {
 
     const subs = getCachedSubtitles();
     if (q.trim().length >= MIN_QUERY_LENGTH && subs.size > 0) {
-        const results = measure("search", () => searchEpisodes(episodeIndex, subs, q));
+        const results = measure("search", () => searchEpisodes(episodeIndex, subs, q, getCachedChapters()));
         setStatus(`${results.reduce((s, r) => s + r.totalMatches, 0)} תוצאות`);
         measure("render:results", () => renderResults(mainPaneEl, results, subs, q));
         applyHighlights(q, mainPaneEl);
@@ -390,7 +420,7 @@ async function init() {
 
         const results = measure("search", () => {
             if (currentRoute.kind === "results") {
-                return searchEpisodes(episodeIndex, subs, currentRoute.query);
+                return searchEpisodes(episodeIndex, subs, currentRoute.query, getCachedChapters());
             }
 
             return [];
