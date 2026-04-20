@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tags
+  SYSTEM 'matroskatags.dtd'>
+<Tags>
+  <Tag>
+    <Targets>
+      <ChapterUID>6</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>9</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>14</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>20</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>22</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ג'ודי לוץ</String>
+    </Simple>
+  </Tag>
+</Tags>

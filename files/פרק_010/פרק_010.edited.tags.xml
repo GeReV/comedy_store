@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tags
+  SYSTEM 'matroskatags.dtd'>
+<Tags>
+  <Tag>
+    <Targets>
+      <ChapterUID>4</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>5</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>8</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>12</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>16</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>האמא הפולניה</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>19</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו</String>
+    </Simple>
+  </Tag>
+</Tags>

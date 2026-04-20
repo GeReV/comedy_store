@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tags
+  SYSTEM 'matroskatags.dtd'>
+<Tags>
+  <Tag>
+    <Targets>
+      <ChapterUID>8</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>11</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>17</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>24</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+</Tags>

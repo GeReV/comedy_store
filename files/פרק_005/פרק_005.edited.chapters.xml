@@ -4,14 +4,16 @@
 <Chapters>
   <EditionEntry>
     <ChapterAtom>
+      <ChapterUID>1</ChapterUID>
       <ChapterTimeStart>0</ChapterTimeStart>
       <ChapterTimeEnd>39640000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>פתיח</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>2</ChapterUID>
       <ChapterTimeStart>39640000000</ChapterTimeStart>
       <ChapterTimeEnd>51200000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -20,6 +22,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>3</ChapterUID>
       <ChapterTimeStart>51200000000</ChapterTimeStart>
       <ChapterTimeEnd>68360000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -28,6 +31,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>4</ChapterUID>
       <ChapterTimeStart>68360000000</ChapterTimeStart>
       <ChapterTimeEnd>108691000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -36,14 +40,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>5</ChapterUID>
       <ChapterTimeStart>108691000000</ChapterTimeStart>
       <ChapterTimeEnd>159240000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>יש-לי יש-לי</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>6</ChapterUID>
       <ChapterTimeStart>159240000000</ChapterTimeStart>
       <ChapterTimeEnd>192440000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -52,14 +58,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>7</ChapterUID>
       <ChapterTimeStart>192440000000</ChapterTimeStart>
       <ChapterTimeEnd>302040000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>ג'ודי לוץ</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>8</ChapterUID>
       <ChapterTimeStart>302040000000</ChapterTimeStart>
       <ChapterTimeEnd>348076000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -68,6 +76,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>9</ChapterUID>
       <ChapterTimeStart>348076000000</ChapterTimeStart>
       <ChapterTimeEnd>362280000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -76,6 +85,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>10</ChapterUID>
       <ChapterTimeStart>362280000000</ChapterTimeStart>
       <ChapterTimeEnd>415720000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -84,6 +94,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>11</ChapterUID>
       <ChapterTimeStart>415720000000</ChapterTimeStart>
       <ChapterTimeEnd>478560000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -92,6 +103,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>12</ChapterUID>
       <ChapterTimeStart>478560000000</ChapterTimeStart>
       <ChapterTimeEnd>488480000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -100,14 +112,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>13</ChapterUID>
       <ChapterTimeStart>488480000000</ChapterTimeStart>
       <ChapterTimeEnd>532600000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>יש-לי יש-לי</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>14</ChapterUID>
       <ChapterTimeStart>532600000000</ChapterTimeStart>
       <ChapterTimeEnd>589120000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -116,6 +130,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>15</ChapterUID>
       <ChapterTimeStart>589120000000</ChapterTimeStart>
       <ChapterTimeEnd>594560000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -124,6 +139,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>16</ChapterUID>
       <ChapterTimeStart>594560000000</ChapterTimeStart>
       <ChapterTimeEnd>656320000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -132,6 +148,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>17</ChapterUID>
       <ChapterTimeStart>656320000000</ChapterTimeStart>
       <ChapterTimeEnd>663000000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -140,6 +157,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>18</ChapterUID>
       <ChapterTimeStart>663000000000</ChapterTimeStart>
       <ChapterTimeEnd>730600000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -148,6 +166,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>19</ChapterUID>
       <ChapterTimeStart>730600000000</ChapterTimeStart>
       <ChapterTimeEnd>792240000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -156,6 +175,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>20</ChapterUID>
       <ChapterTimeStart>792240000000</ChapterTimeStart>
       <ChapterTimeEnd>816080000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -164,14 +184,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>21</ChapterUID>
       <ChapterTimeStart>816080000000</ChapterTimeStart>
       <ChapterTimeEnd>902800000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>החלסטרה של ז'ו'ו</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>22</ChapterUID>
       <ChapterTimeStart>902800000000</ChapterTimeStart>
       <ChapterTimeEnd>921000000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -180,6 +202,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>23</ChapterUID>
       <ChapterTimeStart>921000000000</ChapterTimeStart>
       <ChapterTimeEnd>998451000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -188,6 +211,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>24</ChapterUID>
       <ChapterTimeStart>998451000000</ChapterTimeStart>
       <ChapterTimeEnd>1017200000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -196,6 +220,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>25</ChapterUID>
       <ChapterTimeStart>1017200000000</ChapterTimeStart>
       <ChapterTimeEnd>1051400000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -204,14 +229,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>26</ChapterUID>
       <ChapterTimeStart>1051400000000</ChapterTimeStart>
       <ChapterTimeEnd>1096371000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>יש-לי יש-לי</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>27</ChapterUID>
       <ChapterTimeStart>1096371000000</ChapterTimeStart>
       <ChapterTimeEnd>1133665000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -220,6 +247,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>28</ChapterUID>
       <ChapterTimeStart>1133665000000</ChapterTimeStart>
       <ChapterTimeEnd>1176520000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -228,6 +256,7 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>29</ChapterUID>
       <ChapterTimeStart>1176520000000</ChapterTimeStart>
       <ChapterTimeEnd>1181280000000</ChapterTimeEnd>
       <ChapterDisplay>
