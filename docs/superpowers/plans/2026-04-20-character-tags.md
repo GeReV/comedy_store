@@ -318,64 +318,64 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import pytest
-from scripts.player.character_registry import CharacterRegistry
+from scripts.player.character_registry import DictionaryRegistry
 
 
 def test_empty_registry(tmp_path: Path):
-    reg = CharacterRegistry(tmp_path / "chars.json")
-    assert reg.all == []
-    assert reg.suggest("") == []
+    reg = DictionaryRegistry(tmp_path / "chars.json")
+    assert reg.all_characters == []
+    assert reg.suggest_character("") == []
 
 
 def test_add_and_suggest_prefix(tmp_path: Path):
-    reg = CharacterRegistry(tmp_path / "chars.json")
-    reg.add("Avi Kushnir")
-    reg.add("Dana Modan")
-    assert reg.suggest("Av") == ["Avi Kushnir"]
-    assert reg.suggest("Da") == ["Dana Modan"]
-    assert len(reg.suggest("")) == 2
+    reg = DictionaryRegistry(tmp_path / "chars.json")
+    reg.add_character("Avi Kushnir")
+    reg.add_character("Dana Modan")
+    assert reg.suggest_character("Av") == ["Avi Kushnir"]
+    assert reg.suggest_character("Da") == ["Dana Modan"]
+    assert len(reg.suggest_character("")) == 2
 
 
 def test_suggest_case_insensitive(tmp_path: Path):
-    reg = CharacterRegistry(tmp_path / "chars.json")
-    reg.add("Avi Kushnir")
-    assert reg.suggest("avi") == ["Avi Kushnir"]
-    assert reg.suggest("AVI") == ["Avi Kushnir"]
+    reg = DictionaryRegistry(tmp_path / "chars.json")
+    reg.add_character("Avi Kushnir")
+    assert reg.suggest_character("avi") == ["Avi Kushnir"]
+    assert reg.suggest_character("AVI") == ["Avi Kushnir"]
 
 
 def test_add_persists_to_disk(tmp_path: Path):
     path = tmp_path / "chars.json"
-    reg = CharacterRegistry(path)
-    reg.add("Avi Kushnir")
-    reg2 = CharacterRegistry(path)
-    assert "Avi Kushnir" in reg2.all
+    reg = DictionaryRegistry(path)
+    reg.add_character("Avi Kushnir")
+    reg2 = DictionaryRegistry(path)
+    assert "Avi Kushnir" in reg2.all_characters
 
 
 def test_add_deduplicates(tmp_path: Path):
-    reg = CharacterRegistry(tmp_path / "chars.json")
-    reg.add("Avi Kushnir")
-    reg.add("Avi Kushnir")
-    assert reg.all.count("Avi Kushnir") == 1
+    reg = DictionaryRegistry(tmp_path / "chars.json")
+    reg.add_character("Avi Kushnir")
+    reg.add_character("Avi Kushnir")
+    assert reg.all_characters.count("Avi Kushnir") == 1
 
 
 def test_all_returns_sorted(tmp_path: Path):
-    reg = CharacterRegistry(tmp_path / "chars.json")
-    reg.add("Ziva")
-    reg.add("Avi Kushnir")
-    reg.add("Moni")
-    assert reg.all == sorted(["Ziva", "Avi Kushnir", "Moni"])
+    reg = DictionaryRegistry(tmp_path / "chars.json")
+    reg.add_character("Ziva")
+    reg.add_character("Avi Kushnir")
+    reg.add_character("Moni")
+    assert reg.all_characters == sorted(["Ziva", "Avi Kushnir", "Moni"])
 
 
 def test_load_missing_file(tmp_path: Path):
-    reg = CharacterRegistry(tmp_path / "nonexistent.json")
-    assert reg.all == []
+    reg = DictionaryRegistry(tmp_path / "nonexistent.json")
+    assert reg.all_characters == []
 
 
 def test_load_corrupt_file(tmp_path: Path):
     path = tmp_path / "chars.json"
     path.write_text("NOT JSON", encoding="utf-8")
-    reg = CharacterRegistry(path)
-    assert reg.all == []
+    reg = DictionaryRegistry(path)
+    assert reg.all_characters == []
 ```
 
 - [ ] **Step 2: Run tests to verify they fail**
@@ -772,7 +772,7 @@ class CharacterDialog(QDialog):
         add_row = QHBoxLayout()
         self._input = QLineEdit()
         self._input.setPlaceholderText("Add character…")
-        completer = QCompleter(registry.all)
+        completer = QCompleter(registry.all_characters)
         completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
         self._input.setCompleter(completer)
@@ -815,7 +815,7 @@ class CharacterDialog(QDialog):
             return
         self._characters.append(name)
         self._list.addItem(name)
-        self._registry.add(name)
+        self._registry.add_character(name)
         self._input.clear()
 
     def _remove_selected(self) -> None:
@@ -900,7 +900,7 @@ class CharactersOverviewDialog(QDialog):
             new_chars = [replace if c == find else c for c in chars]
             item.setText(", ".join(new_chars))
         if replace:
-            self._registry.add(replace)
+            self._registry.add_character(replace)
 ```
 
 - [ ] **Step 2: Verify the module imports without error**
