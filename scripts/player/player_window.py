@@ -4,11 +4,11 @@ import logging
 from pathlib import Path
 
 from PyQt6.QtCore import QEvent, QPoint, QTimer, QUrl, Qt
+from PyQt6.QtGui import QKeyEvent
 from PyQt6.QtMultimedia import QAudioOutput, QMediaMetaData, QMediaPlayer
 from PyQt6.QtMultimediaWidgets import QVideoWidget
 from PyQt6.QtWidgets import (
     QDialog,
-    QInputDialog,
     QLabel,
     QLayout,
     QMainWindow,
@@ -21,7 +21,8 @@ from PyQt6.QtWidgets import (
 from .chapter_io import MatroskaIO, MatroskaTagsIO, get_io, output_path_for, tags_output_path_for
 from .chapter_model import Chapter, ChapterList
 from .character_dialog import CharacterDialog, CharactersOverviewDialog
-from .character_registry import CharacterRegistry
+from .dictionary_registry import DictionaryRegistry
+from .rename_dialog import RenameDialog
 from .timeline_widget import TimelineWidget
 
 
@@ -36,7 +37,7 @@ class PlayerWindow(QMainWindow):
         self._base_title = "Chapter Player"
         self._dirty = False
         self._tags_output_path: Path | None = None
-        self._registry = CharacterRegistry()
+        self._registry = DictionaryRegistry()
 
         self._loaded_chapters: list[Chapter] = []  # chapters as read from file (with leading N/A)
         self._chapters = ChapterList([])
@@ -167,8 +168,9 @@ class PlayerWindow(QMainWindow):
 
     # --- keyboard ---
 
-    def keyPressEvent(self, event) -> None:  # type: ignore[override]
+    def keyPressEvent(self, event: QKeyEvent) -> None:  # type: ignore[override]
         key = event.key()
+        virtual_key = event.nativeVirtualKey()
         mods = event.modifiers()
         Mod = Qt.KeyboardModifier
         Key = Qt.Key
@@ -201,9 +203,13 @@ class PlayerWindow(QMainWindow):
             self._player.setPosition(self._player.duration())
 
         # Chapter navigation
-        elif key == Key.Key_BracketLeft:
+        # elif key == Key.Key_BracketLeft:
+        #     self._jump_chapter(-1)
+        # elif key == Key.Key_BracketRight:
+        #     self._jump_chapter(1)
+        elif virtual_key == 219:
             self._jump_chapter(-1)
-        elif key == Key.Key_BracketRight:
+        elif virtual_key == 221:
             self._jump_chapter(1)
 
         # Frame step
@@ -233,24 +239,24 @@ class PlayerWindow(QMainWindow):
         # Chapter operations
         elif key == Key.Key_Delete:
             self._merge_chapter()
-        elif key == Key.Key_S and mods == Mod.ControlModifier:
+        elif virtual_key == Key.Key_S and mods == Mod.ControlModifier:
             self._save()
-        elif key == Key.Key_S and mods == Mod.NoModifier:
+        elif virtual_key == Key.Key_S and mods == Mod.NoModifier:
             self._split_chapter()
-        elif key == Key.Key_R:
+        elif virtual_key == Key.Key_R:
             self._rename_chapter()
-        elif key == Key.Key_C and mods == Mod.NoModifier:
+        elif virtual_key == Key.Key_C and mods == Mod.NoModifier:
             self._edit_current_chapter_characters()
-        elif key == Key.Key_C and mods == Mod.ShiftModifier:
+        elif virtual_key == Key.Key_C and mods == Mod.ShiftModifier:
             self._manage_all_characters()
 
         # Undo / redo
-        elif key == Key.Key_Z and mods == Mod.ControlModifier:
+        elif virtual_key == Key.Key_Z and mods == Mod.ControlModifier:
             if self._chapters.undo():
                 self._mark_dirty()
                 self._timeline.set_chapters(self._chapters)
                 self._update_status()
-        elif key == Key.Key_Z and mods == (Mod.ControlModifier | Mod.ShiftModifier):
+        elif virtual_key == Key.Key_Z and mods == (Mod.ControlModifier | Mod.ShiftModifier):
             if self._chapters.redo():
                 self._mark_dirty()
                 self._timeline.set_chapters(self._chapters)
@@ -285,28 +291,32 @@ class PlayerWindow(QMainWindow):
             return sep().join(parts)
 
         rows = [
-            row([
-                (key("Space"), "Play/Pause"),
-                (f'{key("[")} {key("]")}', "Prev/Next chapter"),
-                (key("S"), "Split"),
-                (key("Del"), "Merge with prev"),
-                (key("R"), "Rename"),
-                (key("C"), "Edit chars"),
-                (key("Shift+C"), "All chars"),
-                (key("Ctrl+S"), "Save"),
-                (key("Ctrl+Z"), "Undo"),
-                (key("Ctrl+Shift+Z"), "Redo"),
-            ]),
-            row([
-                (f'{key("←")} {key("→")}', "±5s"),
-                (f'{key("Alt+←")} {key("Alt+→")}', "±15s"),
-                (f'{key("Ctrl+←")} {key("Ctrl+→")}', "±1min"),
-                (f'{key("Home")} {key("End")}', "Start/End"),
-                (f'{key(",")} {key(".")}', "Frame step"),
-                (f'{key("Shift+,")} {key("Shift+.")}', "Nudge ±1 frame"),
-                (f'{key("Shift+←")} {key("Shift+→")}', "Nudge ±1s"),
-                (f'{key("Ctrl+Shift+←")} {key("Ctrl+Shift+→")}', "Nudge ±5s"),
-            ]),
+            row(
+                [
+                    (key("Space"), "Play/Pause"),
+                    (f'{key("[")} {key("]")}', "Prev/Next chapter"),
+                    (key("S"), "Split"),
+                    (key("Del"), "Merge with prev"),
+                    (key("R"), "Rename"),
+                    (key("C"), "Edit chars"),
+                    (key("Shift+C"), "All chars"),
+                    (key("Ctrl+S"), "Save"),
+                    (key("Ctrl+Z"), "Undo"),
+                    (key("Ctrl+Shift+Z"), "Redo"),
+                ]
+            ),
+            row(
+                [
+                    (f'{key("←")} {key("→")}', "±5s"),
+                    (f'{key("Alt+←")} {key("Alt+→")}', "±15s"),
+                    (f'{key("Ctrl+←")} {key("Ctrl+→")}', "±1min"),
+                    (f'{key("Home")} {key("End")}', "Start/End"),
+                    (f'{key(",")} {key(".")}', "Frame step"),
+                    (f'{key("Shift+,")} {key("Shift+.")}', "Nudge ±1 frame"),
+                    (f'{key("Shift+←")} {key("Shift+→")}', "Nudge ±1s"),
+                    (f'{key("Ctrl+Shift+←")} {key("Ctrl+Shift+→")}', "Nudge ±5s"),
+                ]
+            ),
         ]
 
         for r in rows:
@@ -392,11 +402,10 @@ class PlayerWindow(QMainWindow):
         if idx < 0:
             return
         current_name = self._chapters[idx].name
-        new_name, ok = QInputDialog.getText(
-            self, "Rename Chapter", "Chapter name:", text=current_name
-        )
-        if ok and new_name != current_name:
-            self._chapters.rename(idx, new_name)
+
+        dlg = RenameDialog(current_name, self._registry, parent=self)
+        if dlg.exec() == QDialog.DialogCode.Accepted and dlg.chapter_name != current_name:
+            self._chapters.rename(idx, dlg.chapter_name)
             self._mark_dirty()
             self._timeline.set_chapters(self._chapters)
             self._update_status()

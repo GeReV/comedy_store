@@ -15,7 +15,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
 )
 
-from .character_registry import CharacterRegistry
+from .dictionary_registry import DictionaryRegistry
 from .chapter_model import Chapter
 
 
@@ -26,7 +26,7 @@ class CharacterDialog(QDialog):
         self,
         chapter_name: str,
         characters: list[str],
-        registry: CharacterRegistry,
+        registry: DictionaryRegistry,
         parent=None,
     ) -> None:
         super().__init__(parent)
@@ -49,7 +49,7 @@ class CharacterDialog(QDialog):
         add_row = QHBoxLayout()
         self._input = QLineEdit()
         self._input.setPlaceholderText("Add character…")
-        completer = QCompleter(registry.all)
+        completer = QCompleter(registry.all_characters)
         completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         completer.setFilterMode(Qt.MatchFlag.MatchStartsWith)
         self._input.setCompleter(completer)
@@ -92,7 +92,7 @@ class CharacterDialog(QDialog):
             return
         self._characters.append(name)
         self._list.addItem(name)
-        self._registry.add(name)
+        self._registry.add_character(name)
         self._input.clear()
 
     def _remove_selected(self) -> None:
@@ -109,7 +109,7 @@ class CharactersOverviewDialog(QDialog):
     def __init__(
         self,
         chapters: list[Chapter],
-        registry: CharacterRegistry,
+        registry: DictionaryRegistry,
         parent=None,
     ) -> None:
         super().__init__(parent)
@@ -177,4 +177,4 @@ class CharactersOverviewDialog(QDialog):
             new_chars = [replace if c == find else c for c in chars]
             item.setText(", ".join(new_chars))
         if replace:
-            self._registry.add(replace)
+            self._registry.add_character(replace)
