@@ -74,17 +74,6 @@ export function renderTagView(
       cardHeader.appendChild(timeEl);
 
       cardLink.appendChild(cardHeader);
-
-      const chapterLines = lines.filter((l) => l.start >= ch.start && l.start < ch.end);
-      if (chapterLines.length > 0) {
-        const linesEl = document.createElement("div");
-        linesEl.className = "tag-chapter-lines";
-        for (const l of chapterLines) {
-          linesEl.appendChild(makeLineEl(l, "transcript-line"));
-        }
-        cardLink.appendChild(linesEl);
-      }
-
       card.appendChild(cardLink);
 
       if (ch.tags.length > 0) {
@@ -94,6 +83,16 @@ export function renderTagView(
           tagsEl.appendChild(makeTagEl(t));
         }
         card.appendChild(tagsEl);
+      }
+
+      const chapterLines = lines.filter((l) => l.start >= ch.start && l.start < ch.end);
+      if (chapterLines.length > 0) {
+        const linesEl = document.createElement("div");
+        linesEl.className = "tag-chapter-lines";
+        for (const l of chapterLines) {
+          linesEl.appendChild(makeLineEl(l, "transcript-line"));
+        }
+        card.appendChild(linesEl);
       }
 
       section.appendChild(card);

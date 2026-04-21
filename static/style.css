@@ -656,7 +656,7 @@ a.chapter-block-header:hover {
   display: flex;
   flex-wrap: wrap;
   gap: .3rem;
-  margin-top: .3rem;
+  padding: .28rem .4rem;
 }
 
 /* ── Tag view ─────────────────────────────────────────────────────────── */
@@ -742,7 +742,7 @@ a.chapter-block-header:hover {
 }
 
 .tag-chapter-lines {
-  margin-top: .4rem;
+  padding: 0 .75rem .4rem;
   display: flex;
   flex-direction: column;
   gap: .15rem;
