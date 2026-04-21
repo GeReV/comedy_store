@@ -8,7 +8,34 @@
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
-      <String>לולו</String>
+      <String>ז'וז'ו חלסטרה</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>3</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ג'ודי לוץ</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>5</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>6</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו חלסטרה</String>
     </Simple>
   </Tag>
   <Tag>
@@ -17,7 +44,7 @@
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
-      <String>ז'וז'ו חלסטרה</String>
+      <String>ילד יומולדת</String>
     </Simple>
   </Tag>
   <Tag>
@@ -31,47 +58,20 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>13</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>לולו</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>14</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>יהוקמץ בן-פסיק</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>20</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>ז'וז'ו חלסטרה</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>23</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>לולו</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>26</ChapterUID>
+      <ChapterUID>16</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
       <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>17</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו חלסטרה</String>
     </Simple>
   </Tag>
 </Tags>

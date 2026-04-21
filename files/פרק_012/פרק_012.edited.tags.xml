@@ -4,16 +4,25 @@
 <Tags>
   <Tag>
     <Targets>
-      <ChapterUID>2</ChapterUID>
+      <ChapterUID>6</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
-      <String>לולו</String>
+      <String>יש-לי יש-לי</String>
     </Simple>
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>9</ChapterUID>
+      <ChapterUID>7</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>8</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -26,6 +35,15 @@
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
+      <String>ילד יומולדת</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>12</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
       <String>יש-לי יש-לי</String>
     </Simple>
   </Tag>
@@ -35,21 +53,12 @@
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
-      <String>לולו</String>
+      <String>האמא הפולניה</String>
     </Simple>
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>14</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>יהוקמץ בן-פסיק</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>20</ChapterUID>
+      <ChapterUID>18</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -58,16 +67,7 @@
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>23</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>לולו</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>26</ChapterUID>
+      <ChapterUID>19</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
