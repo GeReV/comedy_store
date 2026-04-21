@@ -4,22 +4,25 @@
 <Chapters>
   <EditionEntry>
     <ChapterAtom>
+      <ChapterUID>1</ChapterUID>
       <ChapterTimeStart>0</ChapterTimeStart>
       <ChapterTimeEnd>36200000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>פתיח</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>2</ChapterUID>
       <ChapterTimeStart>36200000000</ChapterTimeStart>
       <ChapterTimeEnd>72167000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>פתיח</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>3</ChapterUID>
       <ChapterTimeStart>72167000000</ChapterTimeStart>
       <ChapterTimeEnd>143800000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -28,14 +31,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>4</ChapterUID>
       <ChapterTimeStart>143800000000</ChapterTimeStart>
       <ChapterTimeEnd>280967000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>החלסטרה של ז'וז'ו</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>5</ChapterUID>
       <ChapterTimeStart>280967000000</ChapterTimeStart>
       <ChapterTimeEnd>307463000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -44,30 +49,34 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>6</ChapterUID>
       <ChapterTimeStart>307463000000</ChapterTimeStart>
       <ChapterTimeEnd>528833000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>המבזק של ז'ק</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>7</ChapterUID>
       <ChapterTimeStart>528833000000</ChapterTimeStart>
       <ChapterTimeEnd>618917000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>יש-לי יש-לי</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>8</ChapterUID>
       <ChapterTimeStart>618917000000</ChapterTimeStart>
       <ChapterTimeEnd>727600000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>כדאי עם מ. כוערת</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>9</ChapterUID>
       <ChapterTimeStart>727600000000</ChapterTimeStart>
       <ChapterTimeEnd>850600000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -76,22 +85,25 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>10</ChapterUID>
       <ChapterTimeStart>850600000000</ChapterTimeStart>
       <ChapterTimeEnd>1165200000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>המצלמה המשוטטת של ג'ודי — מרד החיות</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>11</ChapterUID>
       <ChapterTimeStart>1165200000000</ChapterTimeStart>
       <ChapterTimeEnd>1263600000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>החלסטרה של ז'וז'ו</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>12</ChapterUID>
       <ChapterTimeStart>1263600000000</ChapterTimeStart>
       <ChapterTimeEnd>1332283000000</ChapterTimeEnd>
       <ChapterDisplay>
@@ -100,14 +112,16 @@
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>13</ChapterUID>
       <ChapterTimeStart>1332283000000</ChapterTimeStart>
       <ChapterTimeEnd>1349400000000</ChapterTimeEnd>
       <ChapterDisplay>
-        <ChapterString>N/A</ChapterString>
+        <ChapterString>החלסטרה של ז'וז'ו</ChapterString>
         <ChapterLanguage>heb</ChapterLanguage>
       </ChapterDisplay>
     </ChapterAtom>
     <ChapterAtom>
+      <ChapterUID>14</ChapterUID>
       <ChapterTimeStart>1349400000000</ChapterTimeStart>
       <ChapterTimeEnd>1388800000000</ChapterTimeEnd>
       <ChapterDisplay>

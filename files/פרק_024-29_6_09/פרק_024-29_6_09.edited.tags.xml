@@ -8,12 +8,65 @@
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
-      <String>יוגבי</String>
+      <String>ז'וז'ו חלסטרה</String>
     </Simple>
   </Tag>
   <Tag>
     <Targets>
-      <ChapterUID>5</ChapterUID>
+      <ChapterUID>6</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'ק</String>
+    </Simple>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>המדען הצרפתי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>7</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>יש-לי יש-לי</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>8</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>מ. כוערת</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>10</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ג'ודי לוץ</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>11</ChapterUID>
+    </Targets>
+    <Simple>
+      <Name>CHARACTER</Name>
+      <String>ז'וז'ו חלסטרה</String>
+    </Simple>
+  </Tag>
+  <Tag>
+    <Targets>
+      <ChapterUID>12</ChapterUID>
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
@@ -26,61 +79,7 @@
     </Targets>
     <Simple>
       <Name>CHARACTER</Name>
-      <String>יש-לי יש-לי</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>16</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>האמא הפולניה</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>19</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>יש-לי יש-לי</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>25</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>יש-לי יש-לי</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>26</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
       <String>ז'וז'ו חלסטרה</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>27</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>יש-לי יש-לי</String>
-    </Simple>
-  </Tag>
-  <Tag>
-    <Targets>
-      <ChapterUID>29</ChapterUID>
-    </Targets>
-    <Simple>
-      <Name>CHARACTER</Name>
-      <String>יש-לי יש-לי</String>
     </Simple>
   </Tag>
 </Tags>
